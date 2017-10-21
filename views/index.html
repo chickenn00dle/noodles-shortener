@@ -1,18 +1,8 @@
-<!-- This is a static file -->
-<!-- served from your routes in server.js -->
-
-<!-- You might want to try something fancier: -->
-<!-- html/nunjucks docs: https://mozilla.github.io/nunjucks/ -->
-<!-- pug: https://pugjs.org/ -->
-<!-- haml: http://haml.info/ -->
-<!-- hbs(handlebars): http://handlebarsjs.com/ -->
-
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Welcome to Glitch!</title>
-    <meta name="description" content="A cool thing made with Glitch">
-    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <title>URL Shortener Microservice</title>
+    <meta name="description" content="URL Shortener Microservice">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,26 +11,32 @@
   <body>
     <header>
       <h1>
-        A Dream of the Future
+        URL Shortener Microservice
       </h1>
     </header>
 
     <main>
-      <p class="bold">Oh hi,</p>
-      <p>Tell me your hopes and dreams:</p>
-      <form>
-        <input type="text" maxlength="100" placeholder="Dreams!">
-        <button type="submit">Submit</button>
-      </form>
-      <section class="dreams">
-        <ul id="dreams">
-        </ul>
-      </section>
+      <p><strong>Welcome to <a href="https://twitter.com/ChickenN00dle" target="_blank">Chickenn00dle</a>'s URL Shortener Microservice.</strong></p>
+      <p>Using the provided URL, add an additional URL to be shortened. The Shortener Microservice will serve the URL in JSON format (along with the original).</p>
+      <div class="box">
+        <p>
+          <strong>Example:</strong>
+        </p>
+        <p>
+          <a href="https://noodles-shortener.glitch.me/foobar.com/path/path/index.html">https://noodles-shortener.glitch.me/foobar.com/path/path/index.html</a>
+        </p>
+        <p>
+          <strong>Should result in:</strong>
+        </p>
+        <code>
+          {"original": "https://noodles-shortener.glitch.me/foobar.com/path/path/index.html", "shortened": "https://noodles-shortener.glitch.me/xyz"}
+        </code>
+      </div>
     </main>
 
     <footer>
-      <a href="https://glitch.com">
-        Remix this in Glitch
+      <a href="https://twitter.com/ChickenN00dle">
+        Check me out on Twitter
       </a>
     </footer>
 
