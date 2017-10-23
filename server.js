@@ -6,11 +6,6 @@ const app = express();
 
 const dbURL = process.env.DBURL;
 
-MongoClient.connect(dbURL, (err, db) => {
-  if (err) throw err;
-  console.log('Connection Established');
-});
-
 app.use(express.static('public'));
 
 app.get("/", (req, res) => {
@@ -18,7 +13,25 @@ app.get("/", (req, res) => {
 });
 
 app.get("/:URL", (req, res) => {
-  let url = URL;
+  let url = req.params.URL;
+  MongoClient.connect(dbURL, (err, db) => {
+    if (err) throw err;
+    console.log('Connected to URL Shortener DB');
+    
+    let coll = db.collection('urls');
+    
+    if (coll.findOne({shortURL: url})) {
+      console.log("Return Full");
+    } else if (coll.findOne({fullURL: url})){
+      console.log("Return Shortened");
+    } else {
+      console.log("Insert URL")
+    };
+    
+    db.close();
+    
+  });
+  
 });
 
 // listen for requests :)
