@@ -2,6 +2,8 @@
 
 Using the provided URL, add an additional URL to be shortened. The Shortener Microservice will serve the URL in JSON format (along with the original).
 
+https://noodles-shortener.glitch.me/[YOUR URL HERE]
+
 IMPORTANT!
 
 1. The microservice will concatenate the protocol to the beginning of your URL, so DO NOT INCLUDE https:// or http:// in your request!
