@@ -44,11 +44,9 @@ app.get('/:passedURI', (req, res) => {
       if (docs.length > 0) {
         if (url == docs[0].originalURL) {
           db.close();
-          console.log('DB Connection Closed');
           return res.end(JSON.stringify(docs[0]));
         } else {
           db.close();
-          console.log('DB Connection Closed');
           return res.redirect(docs[0].originalURL);
         }
         
