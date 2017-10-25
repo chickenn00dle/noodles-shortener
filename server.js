@@ -13,11 +13,13 @@ app.get('/', (req, res) => {
 
 app.get('/:passedURI', (req, res) => {
   let url = req.params.passedURI;
-  if (!/^https*:\/\//.test(url)) {
+  
+  // Corrects url param adding https:// or dirname
+  if (/^[0-9]/.test(url)) {
+    url = 'https://noodles-shortener.glitch.me/' + url;
+  } else if (!/^https*:\/\//.test(url)) {
     url = 'https://' + url;
   }
-  
-  console.log('\n' + url);
   
   MongoClient.connect(dbURL, (err, db) => {
     if (err) throw err;
@@ -36,6 +38,7 @@ app.get('/:passedURI', (req, res) => {
       if (err) throw err;
       
       if (docs.length > 0) {
+        console.log(docs);
         db.close();
         console.log('DB Connection Closed');
         return res.redirect(docs[0].originalURL);
