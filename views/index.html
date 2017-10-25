@@ -18,18 +18,24 @@
     <main>
       <p><strong>Welcome to <a href="https://twitter.com/ChickenN00dle" target="_blank">Chickenn00dle</a>'s URL Shortener Microservice.</strong></p>
       <p>Using the provided URL, add an additional URL to be shortened. The Shortener Microservice will serve the URL in JSON format (along with the original).</p>
+      
+      <p><strong>IMPORTANT!</strong></p>
+      <ol>
+        <li>The microservice will concatenate the protocol to the beginning of your URL, so <strong>DO NOT INCLUDE</strong> <code>https://</code> or <code>http://</code> in your request!</li>
+        <li>Please replace any <code>/</code> in your URL with <code>%2F</code>.</li>
+      </ol>
       <div class="box">
         <p>
           <strong>Example:</strong>
         </p>
         <p>
-          <a href="https://noodles-shortener.glitch.me/www.google.com">https://noodles-shortener.glitch.me/www.google.com</a>
+          <a href="https://noodles-shortener.glitch.me/www.twitter.com%2FChickenn00dle">https://noodles-shortener.glitch.me/www.twitter.com%2FChickenn00dle</a>
         </p>
         <p>
           <strong>Should result in:</strong>
         </p>
         <code>
-          {"original": "https://www.google.com", "shortened": "https://noodles-shortener.glitch.me/1"}
+          {"originalURL": "https://www.twitter.com/Chickenn00dle", "shortURL": "https://noodles-shortener.glitch.me/[someNumber]"}
         </code>
       </div>
     </main>

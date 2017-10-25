@@ -13,8 +13,9 @@ app.get('/', (req, res) => {
 
 app.get('/:passedURI', (req, res) => {
   let url = req.params.passedURI;
+  console.log(url);
   
-  // Corrects url param adding https:// or dirname
+  // Corrects url param adding https:// or https://https://noodles-shortener.glitch.me
   if (/^[0-9]/.test(url)) {
     url = 'https://noodles-shortener.glitch.me/' + url;
   } else if (!/^https*:\/\//.test(url)) {

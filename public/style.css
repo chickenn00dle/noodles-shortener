@@ -17,11 +17,19 @@ main {
   width: 95%;
 }
 
-h1 {
+h1, h2 {
   color: blue;
   margin-bottom: 1rem;
   text-align: center;
   font-size: 2rem;
+}
+
+p {
+  margin-bottom: .25rem;
+}
+
+ul, ol, li {
+  margin-bottom: .5rem;
 }
 
 code {
