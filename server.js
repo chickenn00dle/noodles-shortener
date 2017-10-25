@@ -17,13 +17,15 @@ app.get('/:passedURI', (req, res) => {
     url = 'https://' + url;
   }
   
+  console.log('\n' + url);
+  
   MongoClient.connect(dbURL, (err, db) => {
     if (err) throw err;
     console.log('Connected to DB');
     
     let collection = db.collection('urls');
     
-    let item = collection.find({
+    var cursor = collection.find({
       $or: [
         {
           originalURL: url
@@ -32,7 +34,27 @@ app.get('/:passedURI', (req, res) => {
         }
       ]}).limit(1);
     
-    console.log(item);
+    if (cursor.hasNext()) {
+        cursor.next((doc) => {
+          console.log(doc);
+        });
+      } else {
+        request(url, (err, success) => {
+          if (err) {
+            res.end('[ERROR] Invalid URL: ' + err);
+          }
+          
+          let json = {originalURL: url};
+          collection.find().count((total) => {
+            json['shortURL'] = 'https://noodles-shortener/' + total;
+            console.log(json);
+            console.log('\n');
+            db.close(); 
+            res.end(JSON.stringify(json));
+          });   
+        });
+      }
+    
     db.close(); 
   });
 });
