@@ -32,30 +32,34 @@ app.get('/:passedURI', (req, res) => {
         }, {
           shortURL: url
         }
-      ]}).limit(1);
-    
-    if (cursor.hasNext()) {
-        cursor.next((doc) => {
-          console.log(doc);
-        });
+      ]}).limit(1).toArray((err, docs) => {
+      if (err) throw err;
+      
+      if (docs.length > 0) {
+        db.close();
+        console.log('DB Connection Closed');
+        return res.redirect(docs[0].originalURL);
       } else {
-        request(url, (err, success) => {
+        let json = {originalURL: url};
+        
+        request(url, (err, result) => {
           if (err) {
-            res.end('[ERROR] Invalid URL: ' + err);
-          }
+            db.close();
+            return res.end('[INVALID URL] ' + err);
+          };
           
-          let json = {originalURL: url};
-          collection.find().count((total) => {
-            json['shortURL'] = 'https://noodles-shortener/' + total;
-            console.log(json);
-            console.log('\n');
-            db.close(); 
-            res.end(JSON.stringify(json));
-          });   
+          collection.count((err, count) => {
+            if (err) throw err;
+            json.shortURL = 'https://noodles-shortener.glitch.me/' + count;
+            collection.insert(json);
+            db.close();
+            console.log('DB Connection Closed');
+            return res.end(JSON.stringify(json));
+          });
         });
       }
+    });
     
-    db.close(); 
   });
 });
 
