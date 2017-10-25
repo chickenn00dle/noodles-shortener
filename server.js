@@ -7,37 +7,40 @@ const app = express();
 
 app.use(express.static('public/'));
 
+// Index Route
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+
 app.get('/:passedURI', (req, res) => {
   let url = req.params.passedURI;
-  console.log(url);
   
-  // Corrects url param adding https:// or https://https://noodles-shortener.glitch.me
+  // Correct url param (concat https:// or https://noodles-shortener.glitch.me)
   if (/^[0-9]/.test(url)) {
     url = 'https://noodles-shortener.glitch.me/' + url;
   } else if (!/^https*:\/\//.test(url)) {
     url = 'https://' + url;
   }
   
+  // Connect to db
   MongoClient.connect(dbURL, (err, db) => {
     if (err) throw err;
-    console.log('Connected to DB');
     
     let collection = db.collection('urls');
     
-    var cursor = collection.find({
+    // Assign cursor for url query
+    let cursor = collection.find({
       $or: [
         {
           originalURL: url
         }, {
           shortURL: url
         }
-      ]}).limit(1).toArray((err, docs) => {
+      ]}).limit(1).project( {originalURL: 1, shortURL: 1, _id: 0} ).toArray((err, docs) => {
       if (err) throw err;
       
+      // If a doc is found return JSON or redirect
       if (docs.length > 0) {
         if (url == docs[0].originalURL) {
           db.close();
@@ -48,6 +51,8 @@ app.get('/:passedURI', (req, res) => {
           console.log('DB Connection Closed');
           return res.redirect(docs[0].originalURL);
         }
+        
+        // Else insert to DB and return JSON
       } else {
         let json = {originalURL: url};
         
@@ -62,8 +67,7 @@ app.get('/:passedURI', (req, res) => {
             json.shortURL = 'https://noodles-shortener.glitch.me/' + count;
             collection.insert(json);
             db.close();
-            console.log('DB Connection Closed');
-            return res.end(JSON.stringify(json));
+            return res.end(json.project( {originalURL: 1, shortURL: 1, _id: 0} ));
           });
         });
       }

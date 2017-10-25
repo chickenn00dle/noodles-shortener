@@ -1,10 +1,10 @@
 {
-  "//1": "describes your app and its dependencies",
+  "//1": "A URL Shortener Microservice",
   "//2": "https://docs.npmjs.com/files/package.json",
   "//3": "updating this file will download and update your packages",
-  "name": "my-glitch-app",
+  "name": "noodles-shortener",
   "version": "0.0.1",
-  "description": "What am I about?",
+  "description": "Add url to project path and get a shortened url which will redirect to the original url.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -18,7 +18,7 @@
     "node": "8.x"
   },
   "repository": {
-    "url": "https://glitch.com/edit/#!/welcome-project"
+    "url": "https://github.com/chickenn00dle/noodles-shortener.git"
   },
   "license": "MIT",
   "keywords": [
